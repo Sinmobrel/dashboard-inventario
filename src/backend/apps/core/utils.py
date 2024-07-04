@@ -62,8 +62,9 @@ def traer_empresa(request):
     return EmpresaSerializer(p, context={"request": request}, many=True).data
 
 def guardar_empresa(**kwargs):
-    if 'user' in kwargs and kwargs.get('user') != "" and type(kwargs.get('user')) == str:
-        p = Empresa.objects.create(name = kwargs.get('user'))
+    if 'username' in kwargs and kwargs.get('username') != "" and type(kwargs.get('username')) == str:
+        p = Empresa.objects.create(name = kwargs.get('username'))
+        p.password = kwargs.get('password') if 'password' in kwargs else None
         p.nombre_empresa = kwargs.get('nombre_empresa') if 'nombre_empresa' in kwargs else None
         p.save()
         return True
@@ -140,8 +141,9 @@ def traer_Personal(request):
     return PersonalSerializer(p, context={"request": request}, many=True).data
 
 def guardar_Personal(**kwargs):
-    if 'user' in kwargs and kwargs.get('user') != "" and type(kwargs.get('user')) == str:
-        p = Personal.objects.create(name = kwargs.get('user'))
+    if 'username' in kwargs and kwargs.get('username') != "" and type(kwargs.get('username')) == str:
+        p = Personal.objects.create(name = kwargs.get('username'))
+        p.password = kwargs.get('password') if 'password' in kwargs else None
         p.nombre = kwargs.get('nombre') if 'nombre' in kwargs else None
         p.grupo_trabajo = kwargs.get('grupo_trabajo') if 'grupo_trabajo' in kwargs else None
         p.save()

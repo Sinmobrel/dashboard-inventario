@@ -36,5 +36,4 @@ urlpatterns = [
     path('delete/Producto/<producto_id>', Producto.as_view()),
     path('get/list/Producto/', ListProducto.as_view()),
 
-
 ]

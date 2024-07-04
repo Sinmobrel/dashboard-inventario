@@ -16,38 +16,25 @@ class PersonaSerializer(serializers.Serializer):
 class EmpresaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empresa
-        fields = ['id', 'user', 'nombre_empresa']
+        fields = ['id', 'username', 'password', 'nombre_empresa']
 
 class GrupoTrabajoSerializer(serializers.ModelSerializer):
-    empresa = EmpresaSerializer()
+    empresa = serializers.PrimaryKeyRelatedField(queryset=Empresa.objects.all())
 
     class Meta:
         model = GrupoTrabajo
-        fields = ['id', 'nombre_grupo', 'categoria', 'empresa']
+        fields = ['id', 'categoria', 'empresa']
 
 class PersonalSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
-    grupos_trabajo = GrupoTrabajoSerializer(many=True)
+    grupos_trabajo = serializers.PrimaryKeyRelatedField(many=True, queryset=GrupoTrabajo.objects.all())
 
     class Meta:
         model = Personal
-        fields = ['id', 'user', 'nombre', 'grupos_trabajo']
+        fields = ['id', 'username', 'password', 'nombre', 'grupos_trabajo']
 
 class ProductoSerializer(serializers.ModelSerializer):
-    grupo_trabajo = GrupoTrabajoSerializer()
+    grupo_trabajo = serializers.PrimaryKeyRelatedField(queryset=GrupoTrabajo.objects.all())
 
     class Meta:
         model = Producto
-        fields = ['id', 'nombre_producto', 'descripcion_producto', 'precio_producto', 'categoria_producto', 'grupo_trabajo']
-
-    
-"""
-class ProductoSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    nombre_producto = serializers.CharField()
-    cantidad_producto = serializers.IntegerField()
-    precio_producto = serializers.IntegerField()
-    categoria_producto = serializers.CharField()
-    class Meta:
-        model = Producto
-"""
+        fields = ['id', 'nombre_producto', 'cantidad_producto', 'precio_producto', 'grupo_trabajo']
